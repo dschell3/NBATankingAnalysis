@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why NBA Teams Tank — And How to Fix It</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f14;--bg2:#14171f;--bg3:#1a1e28;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--text:#e8e6df;--muted:#7a7870;--amber:#f0a500;--amber2:#ffc845;--red:#e05252;--green:#3dba8a;--blue:#4a9eda;--teal:#2ec4b6;--font-d:'Playfair Display',serif;--font-b:'IBM Plex Sans',sans-serif;--font-m:'IBM Plex Mono',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.7;min-height:100vh}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:52px;background:rgba(13,15,20,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.nav-title{font-family:var(--font-m);font-size:11px;color:var(--muted);letter-spacing:.08em}
+.nav-dots{display:flex;gap:8px}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);border:none;cursor:pointer;transition:background .2s}
+.nav-dot.active{background:var(--amber)}
+.stage{min-height:100vh;padding:80px 0 120px;display:flex;flex-direction:column;align-items:center}
+.si{width:100%;max-width:720px;padding:0 2rem}
+.snum{font-family:var(--font-m);font-size:11px;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.75rem}
+h1,h2{font-family:var(--font-d);line-height:1.15;margin-bottom:1.25rem}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900}
+h2{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:700}
+.lead{font-size:17px;color:rgba(232,230,223,0.82);line-height:1.75;margin-bottom:1.5rem}
+p{color:rgba(232,230,223,0.75);line-height:1.75;margin-bottom:1rem}
+strong{color:var(--text);font-weight:500}
+.hl{color:var(--amber);font-weight:500}
+.div{border:none;border-top:1px solid var(--border);margin:2rem 0}
+.ic{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:1.5rem;margin:1.75rem 0}
+.ic-lbl{font-family:var(--font-m);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
+.fml{font-family:var(--font-m);font-size:13px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:rgba(232,230,223,0.7);margin-bottom:1rem;line-height:1.6}
+.va{color:var(--blue)}.vb{color:var(--amber)}.vg{color:var(--teal)}
+.sls{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+.slr{display:flex;align-items:center;gap:10px}
+.sll{font-size:12px;color:var(--muted);font-family:var(--font-m);min-width:130px}
+.slr input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:var(--border2);border-radius:2px;outline:none;cursor:pointer}
+.slr input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--amber);cursor:pointer}
+.slv{font-family:var(--font-m);font-size:12px;color:var(--text);min-width:30px;text-align:right}
+.er{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+.el{font-size:12px;color:var(--muted);font-family:var(--font-m);min-width:130px}
+.eb{padding:4px 12px;border:1px solid var(--border2);background:transparent;border-radius:6px;font-size:12px;color:var(--muted);cursor:pointer;font-family:var(--font-m);transition:all .15s}
+.eb.on{background:rgba(240,165,0,0.15);border-color:var(--amber);color:var(--amber)}
+.mw{overflow-x:auto}
+.m2,.m3{border-collapse:collapse;width:100%}
+.m2{min-width:380px}.m3{min-width:440px}
+.m2 th,.m3 th{font-size:11px;font-family:var(--font-m);color:var(--muted);font-weight:400;text-align:center;padding:4px 6px 10px;letter-spacing:.04em}
+.rl{font-size:11px;font-family:var(--font-m);color:var(--muted);text-align:right;padding-right:12px;white-space:nowrap;width:90px;font-weight:400;vertical-align:middle}
+.m3 .rl{width:80px;padding-right:10px}
+.mc{border:1px solid var(--border2);padding:10px 6px;text-align:center;vertical-align:middle;transition:background .2s;min-width:95px}
+.m3 .mc{padding:8px 4px;min-width:80px}
+.mc.ne{background:rgba(61,186,138,0.1);border:1.5px solid rgba(61,186,138,0.5)}
+.pr{display:flex;align-items:baseline;justify-content:center;gap:5px;margin:2px 0}
+.pt{font-size:10px;color:var(--muted);font-family:var(--font-m);min-width:22px;text-align:right}
+.pv{font-size:17px;font-weight:500;line-height:1}
+.pv.a{color:var(--blue)}.pv.b{color:var(--amber)}.pv.br{border-bottom:2px solid currentColor}
+.net{font-size:10px;color:var(--green);margin-top:4px;font-family:var(--font-m)}
+.an{padding:10px 14px;border:1px solid var(--border2);border-radius:8px;font-size:13px;color:rgba(232,230,223,0.7);line-height:1.6;min-height:48px;margin-top:.75rem;font-family:var(--font-m)}
+.an.bad{border-color:rgba(224,82,82,0.4);background:rgba(224,82,82,0.05);color:rgba(224,150,150,0.9)}
+.an.good{border-color:rgba(61,186,138,0.4);background:rgba(61,186,138,0.05);color:rgba(130,220,180,0.9)}
+.an.mid{border-color:rgba(240,165,0,0.4);background:rgba(240,165,0,0.05);color:rgba(255,200,100,0.9)}
+.cs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1rem}
+.cc{padding:10px 12px;border:1px solid var(--border2);border-radius:8px}
+.cl{font-size:10px;font-family:var(--font-m);color:var(--muted);margin-bottom:4px}
+.cn{font-size:13px;font-weight:500;font-family:var(--font-m)}
+.cn.bad{color:var(--red)}.cn.ok{color:var(--green)}.cn.mid{color:var(--amber)}
+/* sim */
+.spanel{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px}
+.spt{font-family:var(--font-m);font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:.06em}
+.sdots{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:7px;min-height:78px;align-content:flex-start}
+.sd{width:13px;height:13px;border-radius:50%;transition:background .3s;display:inline-block;flex-shrink:0}
+.sbar{display:flex;height:7px;border-radius:4px;overflow:hidden;margin-bottom:5px}
+.sszn{font-family:var(--font-m);font-size:11px;color:var(--muted);text-align:center;margin-bottom:4px}
+.sleg{display:flex;gap:10px;justify-content:center;margin-bottom:8px;flex-wrap:wrap}
+.sli{display:flex;align-items:center;gap:4px;font-size:11px;font-family:var(--font-m);color:var(--muted)}
+.sld{width:10px;height:10px;border-radius:50%;display:inline-block}
+.sbtns{display:flex;gap:8px;align-items:center;margin-bottom:.75rem;flex-wrap:wrap}
+.sbtn{padding:6px 16px;border:1px solid var(--border2);background:transparent;border-radius:20px;font-family:var(--font-m);font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s}
+.sbtn:hover{background:var(--border);color:var(--text)}
+.sbtn.pri{border-color:var(--amber);color:var(--amber);background:rgba(240,165,0,0.08)}
+.sbtn.run{border-color:var(--red);color:var(--red);background:rgba(224,82,82,0.08)}
+.hist{width:100%;height:50px;display:block;margin-top:4px}
+/* timeline */
+.tlax{display:flex;padding-left:110px;margin-bottom:4px}
+.tlai{flex:1;font-size:10px;color:var(--muted);font-family:var(--font-m);text-align:center}
+.tlr{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.tll{font-size:11px;color:var(--muted);font-family:var(--font-m);width:102px;text-align:right;flex-shrink:0}
+.tlbw{flex:1;height:22px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border);position:relative}
+.tlbr{position:absolute;top:0;left:0;height:100%;background:var(--border2)}
+.tlbe{position:absolute;top:0;height:100%;opacity:.85}
+.tlbt{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:500;font-family:var(--font-m)}
+.or{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.ol{font-size:11px;font-family:var(--font-m);width:102px;text-align:right;flex-shrink:0}
+.obw{flex:1;height:28px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border);position:relative}
+.obf{position:absolute;top:0;left:0;height:100%;border-radius:4px;transition:width .4s ease}
+.op{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:500;font-family:var(--font-m)}
+.tcs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:1rem 0}
+.tc{padding:10px;border:1px solid var(--border2);border-radius:8px;text-align:center}
+.tcl{font-size:10px;font-family:var(--font-m);color:var(--muted);margin-bottom:4px}
+.tcb{font-size:22px;font-weight:500;line-height:1}
+.tcs2{font-size:10px;color:var(--muted);margin-top:2px;font-family:var(--font-m)}
+.tcd{border-top:1px solid var(--border);margin-top:8px;padding-top:8px}
+.tcp{font-size:18px;font-weight:500}
+.advw{position:fixed;bottom:0;left:0;right:0;z-index:99;display:flex;justify-content:center;padding:1rem 2rem 1.5rem;background:linear-gradient(transparent,rgba(13,15,20,0.95));pointer-events:none}
+.advb{pointer-events:all;padding:12px 32px;border:1px solid var(--amber);background:rgba(240,165,0,0.1);color:var(--amber2);font-family:var(--font-m);font-size:13px;letter-spacing:.08em;border-radius:40px;cursor:pointer;transition:all .2s}
+.advb:hover{background:rgba(240,165,0,0.2)}
+.advb.last{border-color:var(--muted);color:var(--muted);background:transparent}
+.htag{display:inline-block;padding:4px 12px;border:1px solid rgba(240,165,0,0.4);border-radius:20px;font-family:var(--font-m);font-size:11px;color:var(--amber);letter-spacing:.1em;margin-bottom:1.5rem}
+.pq{border-left:2px solid var(--amber);padding:6px 0 6px 16px;margin:1.25rem 0;font-size:15px;color:rgba(232,230,223,0.75);font-style:italic}
+.pq.g{border-left-color:var(--green);color:rgba(130,220,180,0.85)}
+/* ===== MODEL DETAILS MODAL ===== */
+.mmod{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.78);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s}
+.mmod.open{opacity:1;pointer-events:all}
+.mbox{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;width:min(800px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.6)}
+.mhd{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.mhd-t{font-family:var(--font-m);font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.mcls{background:none;border:1px solid var(--border2);border-radius:6px;width:28px;height:28px;color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;line-height:1}
+.mcls:hover{background:var(--border);color:var(--text)}
+.mtabs{display:flex;gap:4px;padding:.75rem 1.5rem .625rem;border-bottom:1px solid var(--border);flex-wrap:wrap;flex-shrink:0}
+.mtb{padding:5px 14px;border:1px solid transparent;border-radius:20px;font-family:var(--font-m);font-size:11px;color:var(--muted);cursor:pointer;transition:all .15s;background:none;letter-spacing:.04em}
+.mtb:hover{color:var(--text);border-color:var(--border2)}
+.mtb.on{background:rgba(240,165,0,0.12);border-color:rgba(240,165,0,0.4);color:var(--amber)}
+.mbody{overflow-y:auto;padding:1.5rem;flex:1;min-height:0}
+.mtpn{display:none}
+.mtpn.on{display:block}
+.mh{font-family:var(--font-m);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:1.25rem 0 .5rem;padding-bottom:.35rem;border-bottom:1px solid var(--border)}
+.mh:first-child{margin-top:0}
+.mp{font-size:13px;color:rgba(232,230,223,0.65);line-height:1.75;margin-bottom:.75rem}
+.meq{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.875rem 1.25rem;margin:.625rem 0;font-family:var(--font-m);font-size:13px;line-height:2;color:rgba(232,230,223,0.85)}
+.meq .el{display:block}
+.meq .cm{color:var(--muted);font-size:11px}
+.meq .va{color:var(--blue)}.meq .vb{color:var(--amber)}.meq .vg{color:var(--teal)}.meq .vr{color:var(--red)}
+.mcond{border-left:2px solid var(--amber);padding:6px 12px;margin:.5rem 0;font-family:var(--font-m);font-size:12px;color:rgba(232,230,223,0.7);line-height:1.7;background:rgba(240,165,0,0.04)}
+.mcond.g{border-left-color:var(--green);background:rgba(61,186,138,0.04)}
+.mcond.r{border-left-color:var(--red);background:rgba(224,82,82,0.04)}
+.mtable{border-collapse:collapse;width:100%;font-family:var(--font-m);font-size:12px;margin:.75rem 0}
+.mtable th{font-weight:400;color:var(--muted);font-size:10px;padding:5px 10px;border-bottom:1px solid var(--border2);text-align:center;letter-spacing:.04em;text-transform:uppercase}
+.mtable td{padding:5px 10px;border-bottom:1px solid var(--border);text-align:center;color:rgba(232,230,223,0.75)}
+.mtable td:first-child{text-align:left;color:var(--muted)}
+.mtable tr:last-child td{border-bottom:none}
+.fmbtn{position:fixed;bottom:5.5rem;right:1.5rem;z-index:98;padding:7px 15px;background:rgba(13,15,20,0.9);border:1px solid var(--border2);border-radius:20px;font-family:var(--font-m);font-size:10px;color:var(--muted);cursor:pointer;transition:all .2s;backdrop-filter:blur(6px);letter-spacing:.06em;white-space:nowrap}
+.fmbtn:hover{border-color:rgba(255,255,255,0.22);color:rgba(232,230,223,0.85)}
+.s5mlink{display:inline-block;margin-top:1.25rem;font-family:var(--font-m);font-size:11px;color:var(--muted);border-bottom:1px solid var(--border);border-top:none;border-left:none;border-right:none;padding-bottom:2px;cursor:pointer;transition:color .15s;letter-spacing:.04em;background:none}
+.s5mlink:hover{color:var(--amber);border-bottom-color:rgba(240,165,0,0.4)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-title">NBA TANKING — A GAME THEORY EXPLAINER</span>
+  <div class="nav-dots">
+    <button class="nav-dot active" onclick="gS(0)"></button>
+    <button class="nav-dot" onclick="gS(1)"></button>
+    <button class="nav-dot" onclick="gS(2)"></button>
+    <button class="nav-dot" onclick="gS(3)"></button>
+    <button class="nav-dot" onclick="gS(4)"></button>
+    <button class="nav-dot" onclick="gS(5)"></button>
+  </div>
+</nav>
+
+<!-- STAGE 0 -->
+<div class="stage" id="stage-0">
+<div class="si">
+  <div class="htag">Interactive explainer</div>
+  <h1>Why NBA teams <span style="color:var(--red)">lose</span> on purpose — and what could actually stop them</h1>
+  <p style="font-size:18px;color:rgba(232,230,223,0.6);max-width:520px;line-height:1.7">Every spring, teams at the bottom of the standings quietly start resting their best players, losing close games, and chasing bad draft odds. This isn't an accident. It's game theory.</p>
+  <hr class="div">
+  <p>We'll walk through the math behind tanking: what makes it individually rational, why the 2019 lottery reform didn't fix it, and why a system borrowed from women's hockey might be the most elegant solution nobody's talking about.</p>
+  <p>Each section has live sliders and simulations. Play with them. The argument is in the numbers.</p>
+</div>
+</div>
+
+<!-- STAGE 1 -->
+<div class="stage" id="stage-1">
+<div class="si">
+  <div class="snum">Stage 01 — The incentive</div>
+  <h2>Losing is worth <span style="color:var(--amber)">a lot</span> of money</h2>
+  <p class="lead">Before we add rivals, imagine you're a GM of a lottery team with no realistic shot at the playoffs. You have one decision: field your best roster, or quietly lose games to improve your draft odds.</p>
+  <div class="fml">U = <span class="va">α · D̂(expected draft pick value)</span>  +  <span class="vb">β · R(season revenue)</span></div>
+  <p>The problem is the relative size of these terms. Revenue sharing means the difference in income between a 20-win team and a 36-win team is surprisingly small. But the expected value of a high draft pick, especially in a superstar year, is enormous. And critically, the value isn't primarily in year-over-year revenue. It's in franchise valuation.</p>
+  <div class="pq">When LeBron James left Cleveland in 2010, the Cavaliers' franchise value dropped from $476M to $355M in a single year. Over the next four years without him, the franchise grew just $39M, to $515M. When LeBron returned in 2014, the valuation jumped to $915M within twelve months. By the time he left again in 2018, the Cavs were worth $1.325 billion. That's $810M in franchise value gained in four years, versus $39M in the four years prior. Revenue sharing smooths out the annual income difference between winning and losing teams. It does nothing to close that gap.</div>
+  <div class="ic">
+    <div class="ic-lbl">Single team payoff model</div>
+    <div class="sls">
+      <div class="slr"><span class="sll va" style="color:var(--blue)">α draft weight</span><input type="range" min=".5" max="5" step=".1" value="2" oninput="s1u('a',+this.value,this)"><span class="slv" id="s1av">2.0</span></div>
+      <div class="slr"><span class="sll" style="color:var(--amber)">β revenue weight</span><input type="range" min=".5" max="5" step=".1" value="1" oninput="s1u('b',+this.value,this)"><span class="slv" id="s1bv">1.0</span></div>
+    </div>
+    <svg id="s1c" width="100%" viewBox="0 0 580 90" style="display:block"></svg>
+    <div class="an" id="s1an"></div>
+  </div>
+  <p>Even at equal weights, tanking comes out ahead for a bottom-10 team. The revenue delta is small; the draft value delta is large. This is the foundation of everything that follows.</p>
+</div>
+</div>
+
+<!-- STAGE 2 -->
+<div class="stage" id="stage-2">
+<div class="si">
+  <div class="snum">Stage 02 — The prisoner's dilemma</div>
+  <h2>When everyone tanks, <span style="color:var(--red)">everyone loses</span></h2>
+  <p class="lead">Now add a rival team. You're both rational. You both see the same incentives. What happens?</p>
+  <p>This is a textbook prisoner's dilemma. The Nash equilibrium is (Tank, Tank), every time. The 2019 lottery reform attempted to compress odds and push teams toward a "coordination zone." See how well it works:</p>
+  <p style="font-size:14px;color:rgba(232,230,223,0.55);font-family:var(--font-m);margin-bottom:1rem">Note: not every team tanked pre-2019 even when that was the dominant strategy. Some franchises prioritized fan experience, coaching development, or simply disagreed on the math. The model shows the rational incentive structure; reality is messier. That messiness is actually what prevents total league collapse under the current system.</p>
+  <div class="ic">
+    <div class="ic-lbl">2-team payoff matrix · underlined = best response · green = Nash equilibrium</div>
+    <div class="sls">
+      <div class="slr"><span class="sll" style="color:var(--blue)">α draft weight</span><input type="range" min=".5" max="5" step=".1" value="2" oninput="s2u('a',+this.value,this)"><span class="slv" id="s2av">2.0</span></div>
+      <div class="slr"><span class="sll" style="color:var(--amber)">β revenue weight</span><input type="range" min=".5" max="5" step=".1" value="1" oninput="s2u('b',+this.value,this)"><span class="slv" id="s2bv">1.0</span></div>
+    </div>
+    <div class="er"><span class="el" style="color:var(--muted)">Lottery system</span><button class="eb on" id="s2pre" onclick="s2era('pre')">Pre-2019</button><button class="eb" id="s2post" onclick="s2era('post')">Post-2019 (flattened)</button></div>
+    <div class="mw"><table class="m2">
+      <tr><td style="border:none;width:90px"></td><th>Rival: tank</th><th>Rival: compete</th></tr>
+      <tr><th class="rl">You: tank</th><td class="mc" id="s2TT"></td><td class="mc" id="s2TC"></td></tr>
+      <tr><th class="rl">You: compete</th><td class="mc" id="s2CT"></td><td class="mc" id="s2CC"></td></tr>
+    </table></div>
+    <div class="an" id="s2an"></div>
+    <div class="cs" id="s2cs"></div>
+  </div>
+
+  <p>Now watch all 30 teams evolve over 82-game seasons. Each team updates its strategy based on the payoffs it observes. The two panels run simultaneously under pre-2019 and post-2019 rules using the α/β values you set above. Hit <strong>Auto-run</strong>.</p>
+
+  <div class="ic">
+    <div class="ic-lbl">30-team league simulation · 82-game seasons</div>
+    <div class="sleg">
+      <span class="sli"><span class="sld" style="background:var(--red)"></span>Tank</span>
+      <span class="sli"><span class="sld" style="background:var(--blue)"></span>Compete</span>
+    </div>
+    <div class="sbtns">
+      <button class="sbtn pri" id="s2rb" onclick="s2st()">▶ Auto-run</button>
+      <button class="sbtn" onclick="s2ss()">Step one season</button>
+      <button class="sbtn" onclick="s2sr()">↺ Reset</button>
+      <span style="font-size:11px;color:var(--muted);font-family:var(--font-m);margin-left:4px">Speed</span>
+      <input type="range" min="150" max="900" step="150" value="450" style="width:70px" oninput="spd=+this.value">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="spanel">
+        <div class="spt">PRE-2019 LOTTERY</div>
+        <div class="sdots" id="d2pre"></div>
+        <div class="sbar" id="b2pre"></div>
+        <div class="sszn" id="z2pre">Season 0</div>
+        <svg class="hist" id="h2pre" viewBox="0 0 230 50"></svg>
+      </div>
+      <div class="spanel">
+        <div class="spt">POST-2019 LOTTERY</div>
+        <div class="sdots" id="d2post"></div>
+        <div class="sbar" id="b2post"></div>
+        <div class="sszn" id="z2post">Season 0</div>
+        <svg class="hist" id="h2post" viewBox="0 0 230 50"></svg>
+      </div>
+    </div>
+    <div class="an" id="s2siman"></div>
+  </div>
+
+  <p>Under pre-2019 rules the league almost always converges to near-universal tanking within a few seasons. Post-2019 can create a mixed stable state, but only when the ratio α/β stays below roughly 3. When draft value weight significantly outweighs revenue weight, which is the realistic case for small-market teams in a superstar year, watch the reform fail. <strong>The 2019 reform assumed teams are sensitive to marginal odds differences.</strong> In a superstar draft year, they aren't.</p>
+  <p>A useful thought experiment: what if draft position had <em>nothing</em> to do with record, a pure lottery where every team had equal odds? Tanking would disappear entirely. If you can't improve your odds by losing, there's no incentive to lose. You still pay the revenue cost of a bad season; you just stop getting the compensating draft benefit. That baseline matters because it isolates where the problem actually lives, not in the draft itself, but in the specific link between losing and lottery position. The hockey model attacks that link directly. Compressing the odds, as the 2019 reform did, merely weakens it.</p>
+</div>
+</div>
+
+<!-- STAGE 3 -->
+<div class="stage" id="stage-3">
+<div class="si">
+  <div class="snum">Stage 03 — The full league</div>
+  <h2>When the prize gets bigger, the <span style="color:var(--red)">problem gets worse</span></h2>
+  <p class="lead">Tanking pressure doesn't stop at the worst records. It cascades up the standings, all the way to teams fighting for the final playoff seed.</p>
+  <p>The play-in introduced a wrinkle the 2019 reform didn't anticipate. A team on the playoff bubble faces a real calculation: fight for a play-in spot that likely ends in early elimination with no lottery ticket, or miss the playoffs entirely and land in the lottery. In a superstar draft year, the lottery upside of missing the playoffs can outweigh the playoff upside of the play-in, especially for a team with no realistic path to advance. The play-in was designed to keep more teams relevant. It accidentally created a zone where falling short of it is strategically attractive.</p>
+  <div class="pq">The 2025 Dallas Mavericks made this concrete. They missed the playoffs at 39 wins, won the lottery, and selected Cooper Flagg. A near-.500 team walked away with a generational pick.</div>
+  <p>But the play-in is a symptom of a deeper problem. Recall the franchise value swings from Stage 1: LeBron's return to Cleveland added $810M in four years. A single generational player doesn't just improve a team. It transforms the entire financial trajectory of a franchise. And unlike large-market teams, small-market franchises can't attract that player through free agency; the draft is their only realistic shot at one. So as the perceived value of any given draft class rises, the incentive to tank doesn't just persist, it intensifies. The basic two-term utility function doesn't capture this. We need a third term:</p>
+  <div class="fml">U = <span class="va">α · D̂</span>  +  <span class="vb">β · R</span>  +  <span class="vg">γ · S(superstar franchise uplift)</span></div>
+  <p>The <span class="vg">γ · S term</span> captures something the basic model misses entirely: the one-time, non-recurring franchise value explosion that comes from landing a generational player. This isn't revenue; it's the difference between a franchise worth $800M and one worth $3B. It's local media rights, jersey sales, national TV appearances, and sponsorship premiums that compound for years. For small-market teams with no free-agency appeal, the draft isn't <em>one</em> pathway to a superstar; it's the <em>only</em> one, which makes γ enormous and essentially permanent if you hit.</p>
+  <p>Curry was the 7th pick. Giannis was 15th. Neither was seen as a likely franchise cornerstone at the time, but the team picking 8th couldn't draft Curry, and the team picking 16th couldn't draft Giannis. Every lottery spot is a potential miss at a player who could have been yours. That's why even marginal improvements in odds, the difference between 9th and 12th in the lottery, get treated as high-stakes decisions.</p>
+
+  <div class="ic">
+    <div class="ic-lbl">2-team payoff matrix · underlined = best response · green = Nash equilibrium</div>
+    <div class="sls">
+      <div class="slr"><span class="sll" style="color:var(--blue)">α draft weight</span><input type="range" min=".5" max="5" step=".1" value="2" oninput="s3u('a',+this.value,this)"><span class="slv" id="s3av">2.0</span></div>
+      <div class="slr"><span class="sll" style="color:var(--amber)">β revenue weight</span><input type="range" min=".5" max="5" step=".1" value="1" oninput="s3u('b',+this.value,this)"><span class="slv" id="s3bv">1.0</span></div>
+      <div class="slr"><span class="sll" style="color:var(--teal)">γ superstar term</span><input type="range" min="0" max="5" step=".1" value="0" oninput="s3u('g',+this.value,this)"><span class="slv" id="s3gv">0.0</span></div>
+    </div>
+    <div class="er"><span class="el" style="color:var(--muted)">System</span><button class="eb on" id="s3nb" onclick="s3sys('nba')">NBA current</button><button class="eb" id="s3hb" onclick="s3sys('hockey')">Hockey model</button></div>
+    <div class="er"><span class="el" style="color:var(--muted)">Draft year</span><button class="eb on" id="s3nm" onclick="s3yr('normal')">Normal</button><button class="eb" id="s3sm" onclick="s3yr('super')">Superstar year</button></div>
+    <div class="mw"><table class="m2">
+      <tr><td style="border:none;width:90px"></td><th>Rival: tank</th><th>Rival: compete</th></tr>
+      <tr><th class="rl">You: tank</th><td class="mc" id="s3TT"></td><td class="mc" id="s3TC"></td></tr>
+      <tr><th class="rl">You: compete</th><td class="mc" id="s3CT"></td><td class="mc" id="s3CC"></td></tr>
+    </table></div>
+    <div class="an" id="s3an"></div>
+    <div class="cs" id="s3cs"></div>
+    <div style="font-family:var(--font-m);font-size:10px;color:var(--muted);margin-top:8px" id="s3nt"></div>
+  </div>
+
+  <p>Now watch the core dynamic across all three systems. Key experiment: switch to Superstar year and raise γ to 2–3. Under pre-2019 and post-2019 NBA rules that produces near-universal tanking. Under the hockey model the same γ <em>reinforces</em> competing, because superstar value now flows through winning games on the elimination table, not losing them.</p>
+
+  <div class="ic">
+    <div class="ic-lbl">30-team simulation · pre-2019 vs post-2019 vs hockey model</div>
+    <div class="sleg">
+      <span class="sli"><span class="sld" style="background:var(--red)"></span>Tank</span>
+      <span class="sli"><span class="sld" style="background:var(--blue)"></span>Compete</span>
+    </div>
+    <div class="sbtns">
+      <button class="sbtn pri" id="s3rb" onclick="s3st()">▶ Auto-run</button>
+      <button class="sbtn" onclick="s3ss()">Step one season</button>
+      <button class="sbtn" onclick="s3sr()">↺ Reset</button>
+      <span style="font-size:11px;color:var(--muted);font-family:var(--font-m);margin-left:4px">Speed</span>
+      <input type="range" min="150" max="900" step="150" value="450" style="width:70px" oninput="spd=+this.value">
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+      <div class="spanel">
+        <div class="spt">NBA PRE-2019</div>
+        <div class="sdots" id="d3pre"></div>
+        <div class="sbar" id="b3pre"></div>
+        <div class="sszn" id="z3pre">Season 0</div>
+        <svg class="hist" id="h3pre" viewBox="0 0 160 50"></svg>
+      </div>
+      <div class="spanel">
+        <div class="spt">NBA POST-2019</div>
+        <div class="sdots" id="d3post"></div>
+        <div class="sbar" id="b3post"></div>
+        <div class="sszn" id="z3post">Season 0</div>
+        <svg class="hist" id="h3post" viewBox="0 0 160 50"></svg>
+      </div>
+      <div class="spanel" style="border-color:rgba(61,186,138,0.35)">
+        <div class="spt" style="color:var(--green)">HOCKEY MODEL</div>
+        <div class="sdots" id="d3hky"></div>
+        <div class="sbar" id="b3hky"></div>
+        <div class="sszn" id="z3hky">Season 0</div>
+        <svg class="hist" id="h3hky" viewBox="0 0 160 50"></svg>
+      </div>
+    </div>
+    <div class="an" id="s3siman"></div>
+  </div>
+</div>
+</div>
+
+<!-- STAGE 4 -->
+<div class="stage" id="stage-4">
+<div class="si">
+  <div class="snum">Stage 04 — The fix</div>
+  <h2>Women's hockey figured this out <span style="color:var(--green)">already</span></h2>
+  <p class="lead">Once you're mathematically eliminated from the playoffs, you start accumulating points on a separate league table. The team with the most points gets the #1 pick. Every win after elimination directly improves your draft position.</p>
+  <p>This completely inverts the incentive for eliminated teams. And worse teams get naturally biased toward better picks, not through lottery odds, but through geometry. A team eliminated in February gets ~25–30 games on the table. A team that just misses the play-in gets maybe 5. That gap is the mechanism. No randomness required.</p>
+  <p>For teams on the playoff bubble, the hockey model doesn't dramatically change the strategic calculus: whether they fight for the play-in or fall short of it, they accumulate zero table games either way. What changes is the upside. Under the current system, missing the play-in in a superstar draft year still carries a lottery ticket and a real chance at the #1 pick. Under the hockey model, that jackpot doesn't exist. There's no consolation prize for a near-.500 team. The only path to a top pick is being eliminated early and then winning games.</p>
+  <p>The <span class="hl">closer</span> the tiers are in elimination timing, the flatter the effective odds. The <span class="hl">more spread out</span>, the stronger the bias toward worse teams:</p>
+  <div class="ic">
+    <div class="ic-lbl">Season timeline — elimination table games earned</div>
+    <div style="display:flex;gap:12px;margin-bottom:8px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-family:var(--font-m)"><span style="width:12px;height:6px;background:rgba(255,255,255,0.15);border-radius:2px;display:inline-block"></span>Regular season</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-family:var(--font-m)"><span style="width:12px;height:6px;background:#4a9eda;opacity:.8;border-radius:2px;display:inline-block"></span>Elimination table</span>
+    </div>
+    <div class="tlax" id="tlax"></div>
+    <div id="tlbars"></div>
+    <div style="margin:1rem 0 .5rem;font-family:var(--font-m);font-size:11px;color:var(--muted)">Adjust elimination timing</div>
+    <div id="tlctrls"></div>
+  </div>
+  <div class="ic">
+    <div class="ic-lbl">Effective draft odds — elimination table share</div>
+    <p style="font-size:12px;color:var(--muted);font-family:var(--font-m);margin-bottom:.75rem">Each tier's share of total table games = their effective draft odds. No lottery. No randomness.</p>
+    <div id="oddsec"></div>
+  </div>
+  <div class="ic">
+    <div class="ic-lbl">Expected outcomes by tier</div>
+    <div class="tcs" id="tiercards"></div>
+    <div style="font-family:var(--font-m);font-size:11px;color:var(--muted);margin-top:.75rem;line-height:1.5" id="tlnote"></div>
+  </div>
+  <p>Notice what happens when you push all three tiers to nearly the same elimination date: the odds flatten toward equal. Pull them apart and the early lottery tier's advantage compounds naturally. The system is self-correcting.</p>
+  <p style="font-size:14px;color:rgba(232,230,223,0.65);line-height:1.7">One implementation challenge worth noting: in a 30-team league, schedule difficulty varies considerably across the remaining games of an eliminated team. A team eliminated with 24 games left might face 22 playoff-caliber opponents mostly on the road; another eliminated with 4 games left might face the weakest teams in the league at home. Remaining schedule strength isn't random, and in a system where post-elimination wins directly determine draft position, that asymmetry matters. Any serious implementation would need to either randomize end-of-season scheduling for eliminated teams or publish remaining schedules transparently, so the process can't be quietly tilted in any direction.</p>
+  <div class="pq g">The hockey model isn't without its complications. But it puts the incentive back where the soul of the game lives. No fan wants to root for their team to lose.</div>
+</div>
+</div>
+
+<!-- STAGE 5 -->
+<div class="stage" id="stage-5">
+<div class="si">
+  <div class="snum">Stage 05 — The what-if</div>
+  <h2>The last three drafts, <span style="color:var(--teal)">rewritten</span></h2>
+  <p class="lead">If the hockey model had been in place for the 2023, 2024, and 2025 drafts, who would have gotten which pick?</p>
+  <p>This is a counterfactual. Teams would have behaved differently under different rules, so the actual elimination dates and win totals would shift. But applying the hockey model retroactively to real seasons gives an honest sense of how the pick order changes, and whether the system actually biases top picks toward the worst teams the way it's designed to.</p>
+  <p style="font-size:13px;color:rgba(232,230,223,0.5);font-family:var(--font-m);margin-bottom:1.5rem">Play-in teams are treated as eliminated on the date of their play-in loss with zero remaining games.</p>
+
+  <div class="ic">
+    <div class="ic-lbl">Draft year</div>
+    <div class="er" style="margin-bottom:1.25rem">
+      <button class="eb on" id="s5y25" onclick="s5yr(2025)">2025 Draft</button>
+      <button class="eb" id="s5y24" onclick="s5yr(2024)">2024 Draft</button>
+      <button class="eb" id="s5y23" onclick="s5yr(2023)">2023 Draft</button>
+    </div>
+    <div id="s5table"></div>
+    <div style="font-family:var(--font-m);font-size:11px;color:var(--muted);margin-top:1rem;line-height:1.6" id="s5note"></div>
+  </div>
+
+  <p>A few things jump out across all three years. Post-elimination winning performance, not regular-season record, is what drives draft position under the hockey model. San Antonio accumulated 9 table wins in 2024 with only 22 regular-season wins and would have picked first. Houston led with 7 table wins in 2023 and would have done the same. Detroit had the worst record in both of those years and lands mid-table both times, because being eliminated early only creates the opportunity to accumulate table wins; you still have to take it.</p>
+  <p>The zero table wins cases are the starkest. Any team that finishes the season without accumulating a single post-elimination win, whether they narrowly missed the play-in or missed the playoffs entirely, falls to the bottom of the draft table regardless of record. In 2025, Dallas missed the playoffs at 39 wins and won the lottery outright, getting the #1 pick. Under the hockey model, zero table wins guarantees a team will not be picking anywhere near the top of the draft.</p>
+  <div class="pq g">The hockey model doesn't eliminate tanking by penalizing it. It eliminates tanking by making winning the only lever that positively moves draft position. So fans of every team, for every game that remains, have a reason to want their team to win.</div>
+  <button class="s5mlink" onclick="openMath(3)">↗ Model derivations &amp; underlying assumptions</button>
+</div>
+</div>
+
+<div class="advw"><button class="advb" id="advb" onclick="adv()">Continue ↓</button></div>
+
+<button class="fmbtn" onclick="openMath()">⊕ model details</button>
+
+<div class="mmod" id="mmod" onclick="if(event.target===this)closeMath()">
+  <div class="mbox">
+    <div class="mhd">
+      <span class="mhd-t">Model details &amp; derivations</span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="https://github.com/dschell3/NBATankingAnalysis/blob/master/nba_tanking_analysis.ipynb" download style="font-family:var(--font-m);font-size:10px;color:var(--muted);border:1px solid var(--border2);border-radius:6px;padding:4px 10px;text-decoration:none;letter-spacing:.06em;transition:all .15s" onmouseover="this.style.color='var(--amber)';this.style.borderColor='rgba(240,165,0,0.4)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border2)'">↓ full analysis (.ipynb)</a>
+        <button class="mcls" onclick="closeMath()">✕</button>
+      </div>
+    </div>
+    <div class="mtabs">
+      <button class="mtb on" onclick="mTab(0)">01 — Utility</button>
+      <button class="mtb" onclick="mTab(1)">02 — Game</button>
+      <button class="mtb" onclick="mTab(2)">03 — Superstar</button>
+      <button class="mtb" onclick="mTab(3)">04 — Hockey odds</button>
+      <button class="mtb" onclick="mTab(4)">05 — Simulation</button>
+    </div>
+    <div class="mbody">
+
+      <!-- TAB 0: Stage 01 — Single-team utility -->
+      <div class="mtpn on" id="mtpn0">
+        <div class="mh">Utility function</div>
+        <div class="meq">
+          <span class="el">U(s) = <span class="va">α · D̂(s)</span>  +  <span class="vb">β · R(s)</span></span>
+          <span class="el cm">s ∈ {Tank, Compete} · α = draft weight (slider) · β = revenue weight (slider)</span>
+        </div>
+        <div class="mh">Hardcoded parameter values</div>
+        <table class="mtable">
+          <tr><th>Strategy</th><th>D̂(s) — draft value</th><th>R(s) — revenue</th></tr>
+          <tr><td>Tank</td><td style="color:var(--red)">72</td><td>20</td></tr>
+          <tr><td>Compete</td><td style="color:var(--blue)">50</td><td>38</td></tr>
+        </table>
+        <p class="mp">Draft values are normalised relative to a 50-unit baseline (the CC payoff in Stage 02). Revenue is modelled as a fraction of league revenue share; tanking teams earn modestly less via gate receipts but near-equal TV distributions under the current revenue-sharing structure.</p>
+        <div class="mh">Dominance condition</div>
+        <div class="meq">
+          <span class="el">Tank is individually optimal iff U(T) &gt; U(C):</span>
+          <span class="el">&nbsp;</span>
+          <span class="el">α·72 + β·20  &gt;  α·50 + β·38</span>
+          <span class="el">α·(72 − 50)  &gt;  β·(38 − 20)</span>
+          <span class="el">α·22  &gt;  β·18</span>
+          <span class="el" style="margin-top:.25rem"><strong>α/β  &gt;  18/22  ≈  0.818</strong></span>
+        </div>
+        <div class="mcond">Tanking is individually rational for any α/β &gt; 0.82. In a superstar draft year, estimates of α/β for small-market teams routinely exceed 2–3. The 0.82 threshold is almost never binding in practice.</div>
+        <div class="mh">Assumptions &amp; limitations</div>
+        <p class="mp">Utility is additively separable and linear in α, β. The γ·S franchise-value term (introduced in Stage 03) is excluded here, which understates the true tank incentive. Revenue sharing is treated as complete; in reality gate revenue creates a small additional cost to losing that this model somewhat underweights.</p>
+      </div>
+
+      <!-- TAB 1: Stage 02 — Prisoner's dilemma -->
+      <div class="mtpn" id="mtpn1">
+        <div class="mh">Payoff function — 2-player symmetric game</div>
+        <div class="meq">
+          <span class="el">π(sᵢ, sⱼ) = α · D(sᵢ, sⱼ) + β · R(sᵢ)</span>
+          <span class="el cm">D(sᵢ, sⱼ) = expected draft pick value given both teams' strategies</span>
+        </div>
+        <div class="mh">Draft pick values D(sᵢ, sⱼ)</div>
+        <table class="mtable">
+          <tr><th></th><th>Rival: Tank</th><th>Rival: Compete</th></tr>
+          <tr><td>You: Tank</td><td>52</td><td>75</td></tr>
+          <tr><td>You: Compete</td><td>30</td><td>50</td></tr>
+        </table>
+        <p class="mp" style="font-size:11px;margin-top:.25rem">Post-2019 (flattened odds): TT=52, TC=62, CT=38, CC=50 — the reform compresses the TC/CT gap, reducing the reward to unilateral tanking and the punishment for unilateral competing.</p>
+        <table class="mtable" style="margin-top:.5rem">
+          <tr><th>R(Tank)</th><th>R(Compete)</th></tr>
+          <tr><td>20</td><td>65</td></tr>
+        </table>
+        <div class="mh">Nash equilibrium conditions</div>
+        <p class="mp">For a symmetric 2-player game, (s*, s*) is a Nash equilibrium iff s* is a best response to s*.</p>
+        <div class="meq">
+          <span class="el cm">// (Tank, Tank) is NE iff Tank is BR to Tank:</span>
+          <span class="el">π(T,T) ≥ π(C,T)</span>
+          <span class="el">α(D<sub>TT</sub> − D<sub>CT</sub>) ≥ β(R<sub>C</sub> − R<sub>T</sub>) = β · 45</span>
+          <span class="el">&nbsp;</span>
+          <span class="el">Pre-2019:   α · (52−30) ≥ β · 45  →  α · 22 ≥ β · 45  →  <strong>α/β ≥ 2.045</strong></span>
+          <span class="el">Post-2019:  α · (52−38) ≥ β · 45  →  α · 14 ≥ β · 45  →  <strong>α/β ≥ 3.214</strong></span>
+        </div>
+        <div class="meq">
+          <span class="el cm">// (Compete, Compete) is NE iff Compete is BR to Compete:</span>
+          <span class="el">π(C,C) ≥ π(T,C)</span>
+          <span class="el">α(D<sub>TC</sub> − D<sub>CC</sub>) ≤ β · 45</span>
+          <span class="el">&nbsp;</span>
+          <span class="el">Pre-2019:   α · (75−50) ≤ β · 45  →  α · 25 ≤ β · 45  →  <strong>α/β ≤ 1.800</strong></span>
+          <span class="el">Post-2019:  α · (62−50) ≤ β · 45  →  α · 12 ≤ β · 45  →  <strong>α/β ≤ 3.750</strong></span>
+        </div>
+        <div class="mh">Equilibrium regions by α/β</div>
+        <table class="mtable">
+          <tr><th>System</th><th>(C,C) only</th><th>Coordination zone</th><th>(T,T) only</th></tr>
+          <tr><td>Pre-2019</td><td>&lt; 1.80</td><td>∅  (gap → mixed NE)</td><td>&gt; 2.045</td></tr>
+          <tr><td>Post-2019</td><td>&lt; 3.21</td><td>3.21 — 3.75</td><td>&gt; 3.750</td></tr>
+        </table>
+        <div class="mcond g">The 2019 reform raised the (T,T) NE threshold from 2.045 to 3.214 and created a coordination zone of width ~0.54 α/β units. The pre-2019 gap (1.80–2.045) had no pure NE at all; the reform converted that to a coordination zone and extended it.</div>
+        <div class="mh">Social optimum vs. Nash</div>
+        <div class="meq">
+          <span class="el">W<sub>CC</sub> = 2 · π(C,C) = 2 · (α·50 + β·65)</span>
+          <span class="el">W<sub>TT</sub> = 2 · π(T,T) = 2 · (α·52 + β·20)</span>
+          <span class="el">&nbsp;</span>
+          <span class="el">W<sub>CC</sub> &gt; W<sub>TT</sub>  iff  β · 45 &gt; α · 2  →  β/α &gt; 0.044</span>
+          <span class="el cm">// Cooperation is socially superior for essentially all α, β &gt; 0.</span>
+        </div>
+        <div class="mcond r">Classic prisoner's dilemma structure: cooperation maximises joint welfare but is individually irrational at any realistic α/β. The 2019 reform narrows the region where defection is individually rational but does not eliminate it.</div>
+      </div>
+
+      <!-- TAB 2: Stage 03 — Superstar term -->
+      <div class="mtpn" id="mtpn2">
+        <div class="mh">Three-term utility function</div>
+        <div class="meq">
+          <span class="el">U(s) = <span class="va">α · D̂(s)</span>  +  <span class="vb">β · R(s)</span>  +  <span class="vg">γ · S(s)</span></span>
+          <span class="el cm">γ = superstar franchise-value weight · S = one-time franchise uplift term</span>
+        </div>
+        <div class="mh">S payoff values by system and draft year</div>
+        <table class="mtable">
+          <tr><th>System</th><th>Draft year</th><th>S(Tank)</th><th>S(Compete)</th><th>ΔS = S<sub>T</sub> − S<sub>C</sub></th></tr>
+          <tr><td>NBA</td><td>Normal</td><td>20</td><td>2</td><td style="color:var(--red)">+18</td></tr>
+          <tr><td>NBA</td><td>Superstar</td><td>50</td><td>2</td><td style="color:var(--red)">+48</td></tr>
+          <tr><td>Hockey</td><td>Normal</td><td>2</td><td>16</td><td style="color:var(--green)">−14</td></tr>
+          <tr><td>Hockey</td><td>Superstar</td><td>2</td><td>32</td><td style="color:var(--green)">−30</td></tr>
+        </table>
+        <div class="mh">Effect of γ on the (Tank, Tank) Nash equilibrium condition</div>
+        <div class="meq">
+          <span class="el">Full condition with three terms:</span>
+          <span class="el">α(D<sub>TT</sub> − D<sub>CT</sub>) + γ · ΔS  ≥  β · 45</span>
+          <span class="el">&nbsp;</span>
+          <span class="el cm">// NBA superstar year (ΔS = +48):</span>
+          <span class="el">α · 22 + γ · 48  ≥  β · 45  <span class="cm">← γ amplifies tanking incentive</span></span>
+          <span class="el">&nbsp;</span>
+          <span class="el cm">// Hockey model, normal year (ΔS = −14):</span>
+          <span class="el">−α · 36 − γ · 14  ≥  β · 45  <span class="cm">← never satisfied for α, β, γ &gt; 0</span></span>
+        </div>
+        <div class="mcond g">Under the hockey model, (Tank, Tank) is not a Nash equilibrium for any positive α, β, γ. The same γ that makes tanking worse under NBA rules makes competing better under hockey rules — because superstar upside flows through winning post-elimination games, not losing during the regular season.</div>
+        <div class="mh">Assumptions</div>
+        <p class="mp">S values are heuristic calibrations, not direct empirical estimates. The franchise-value uplift in LeBron's Cleveland return (~$810M over four years) is well-documented, but mapping that to a normalised S unit requires an analyst-specified scale. The qualitative claim — ΔS is large and positive under NBA rules, large and negative under the hockey model — is robust to reasonable choices of scale. The exact γ thresholds at which the NE flips are scale-dependent.</p>
+      </div>
+
+      <!-- TAB 3: Stage 04 — Hockey odds -->
+      <div class="mtpn" id="mtpn3">
+        <div class="mh">Elimination table mechanics</div>
+        <div class="meq">
+          <span class="el">Tier i is eliminated at game eᵢ,  where eᵢ &lt; 82</span>
+          <span class="el">&nbsp;</span>
+          <span class="el">Table games earned:  gᵢ = 82 − eᵢ</span>
+          <span class="el cm">// post-elimination wins on the table determine draft pick order</span>
+        </div>
+        <div class="mh">Effective draft odds (deterministic, no lottery)</div>
+        <div class="meq">
+          <span class="el">pᵢ = gᵢ / Σₖ gₖ</span>
+          <span class="el cm">// tier i's share of total table games = their effective draft odds</span>
+        </div>
+        <div class="mh">Structural properties</div>
+        <div class="mcond">Monotonicity: ∂pᵢ/∂eᵢ &lt; 0 — earlier elimination strictly improves odds, all else equal.</div>
+        <div class="mcond">Self-correction: as eᵢ → eⱼ for all i, j, odds flatten toward 1/n. As eliminations diverge, early-tier advantage compounds multiplicatively. The system automatically scales with how spread out the league's records are.</div>
+        <div class="mcond g">Necessary and sufficient condition for top pick: a team must (a) be eliminated early and (b) accumulate the most post-elimination wins. Neither condition alone is sufficient. Early elimination creates the opportunity; winning after elimination takes it.</div>
+        <div class="mh">Default tier values (sliders at starting position)</div>
+        <table class="mtable">
+          <tr><th>Tier</th><th>Elim. game eᵢ</th><th>Table games gᵢ</th><th>Odds pᵢ</th></tr>
+          <tr><td>Early lottery</td><td>52</td><td>30</td><td style="color:var(--red)">60.0%</td></tr>
+          <tr><td>Mid lottery</td><td>67</td><td>15</td><td style="color:var(--amber)">30.0%</td></tr>
+          <tr><td>Late lottery</td><td>77</td><td>5</td><td style="color:var(--green)">10.0%</td></tr>
+          <tr><td style="color:var(--text)">Total</td><td>—</td><td>50</td><td>100%</td></tr>
+        </table>
+        <div class="mh">Comparison with post-2019 NBA lottery (top-3 slots)</div>
+        <table class="mtable">
+          <tr><th>System</th><th>Worst team</th><th>3rd-worst team</th><th>Randomness</th></tr>
+          <tr><td>NBA lottery (post-2019)</td><td>14.0%</td><td>14.0%</td><td>Yes</td></tr>
+          <tr><td>Hockey model (default tiers)</td><td>60.0%</td><td>10.0%</td><td>No</td></tr>
+        </table>
+        <p class="mp">The hockey model produces steeper odds than the NBA lottery — but those odds are earned through play and fully deterministic. A team cannot get lucky into the #1 pick; it must earn it by both losing the regular season and winning after elimination.</p>
+        <div class="mh">Implementation note — schedule strength</div>
+        <p class="mp">Remaining schedule strength is not controlled for in this model. A team eliminated at game 52 may face 20+ playoff-calibre opponents, largely on the road; one eliminated at game 77 may play weaker teams at home. Any real implementation would need either schedule randomisation for eliminated teams, or transparent schedule publication to prevent quiet manipulation of remaining strength-of-schedule.</p>
+      </div>
+
+      <!-- TAB 4: Stage 05 — Simulation dynamics -->
+      <div class="mtpn" id="mtpn4">
+        <div class="mh">Logit best-response dynamics</div>
+        <p class="mp">The simulation uses logit (softmax) updating rather than pure best-response. This models bounded rationality: teams are more likely to play better strategies, but noise prevents full convergence to a deterministic equilibrium in early seasons. The temperature parameter τ controls how much noise.</p>
+        <div class="mh">Expected utility given population state</div>
+        <div class="meq">
+          <span class="el">Population state at season n:  p<sub>T</sub><sup>(n)</sup> ∈ [0,1]  =  fraction of league tanking</span>
+          <span class="el">&nbsp;</span>
+          <span class="el">Ū(T, p<sub>T</sub>) = α[p<sub>T</sub> · D<sub>TT</sub> + (1−p<sub>T</sub>) · D<sub>TC</sub>] + β · R<sub>T</sub> + γ · S<sub>T</sub></span>
+          <span class="el">Ū(C, p<sub>T</sub>) = α[p<sub>T</sub> · D<sub>CT</sub> + (1−p<sub>T</sub>) · D<sub>CC</sub>] + β · R<sub>C</sub> + γ · S<sub>C</sub></span>
+        </div>
+        <div class="mh">Logit update rule</div>
+        <div class="meq">
+          <span class="el cm">// each team independently redraws its strategy each season:</span>
+          <span class="el">&nbsp;</span>
+          <span class="el">P(Tank | p<sub>T</sub>, τ) = σ(ΔŪ / τ)</span>
+          <span class="el">             = 1 / (1 + exp(−(Ū<sub>T</sub> − Ū<sub>C</sub>) / τ))</span>
+          <span class="el">&nbsp;</span>
+          <span class="el cm">// σ(·) = logistic function · τ = temperature · ΔŪ = Ū_T − Ū_C</span>
+        </div>
+        <div class="mh">Temperature schedule</div>
+        <div class="meq">
+          <span class="el">τₙ = max(4,  20 − 1.2 · n)</span>
+          <span class="el cm">// n = season number, starting at 0</span>
+          <span class="el">&nbsp;</span>
+          <span class="el">n = 0:   τ = 20.0  (noisy — high exploration)</span>
+          <span class="el">n = 13:  τ = 4.0   (near-rational best response)</span>
+          <span class="el">n ≥ 13:  τ = 4.0   (fixed — residual mixing floor)</span>
+        </div>
+        <div class="mcond">At τ → 0: pure best-response. σ(ΔŪ/0) approaches a step function. Teams always play the dominant strategy.</div>
+        <div class="mcond">At τ → ∞: uniform mixing. σ → 0.5. Teams ignore payoffs entirely.</div>
+        <div class="mcond g">The cooling schedule models a league that starts with heterogeneous, noisy beliefs and converges toward rational play over ~13 seasons. The floor τ = 4 preserves residual mixing to prevent the simulation from locking into a single strategy artificially.</div>
+        <div class="mh">Nash equilibrium vs. QRE vs. simulation</div>
+        <table class="mtable">
+          <tr><th>Concept</th><th>Rationality</th><th>Equilibrium type</th></tr>
+          <tr><td>Nash equilibrium</td><td>Perfect</td><td>Best-response fixed point</td></tr>
+          <tr><td>QRE (τ fixed = 4)</td><td>Bounded</td><td>Logit fixed point: p* = σ(ΔŪ(p*)/4)</td></tr>
+          <tr><td>Simulation (τ cooling)</td><td>Bounded, improving</td><td>Convergence path to near-QRE</td></tr>
+        </table>
+        <div class="mh">Mean-field approximation</div>
+        <p class="mp">Each team computes expected utility using the league-wide fraction p<sub>T</sub> as a sufficient statistic for opponent strategy distribution. This mean-field assumption suppresses team heterogeneity (market size, roster age, draft pick inventory, ownership preferences). All 30 teams face identical payoff structures in the model. Real tanking decisions vary substantially across franchises for reasons this model does not capture — which is partly why real leagues never fully converge to the Nash equilibrium the model predicts.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// NAV
+let cur=0;const NS=6;
+function gS(n){cur=n;document.getElementById('stage-'+n).scrollIntoView({behavior:'smooth'});document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===n));const b=document.getElementById('advb');b.textContent=n===NS-1?'↑ Back to start':'Continue ↓';b.className='advb'+(n===NS-1?' last':'');}
+function adv(){cur<NS-1?gS(cur+1):gS(0);}
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const n=parseInt(e.target.id.split('-')[1]);if(!isNaN(n)){cur=n;document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===n));const b=document.getElementById('advb');b.textContent=n===NS-1?'↑ Back to start':'Continue ↓';b.className='advb'+(n===NS-1?' last':'');}}});},{threshold:0.35});
+for(let i=0;i<NS;i++){const el=document.getElementById('stage-'+i);if(el)obs.observe(el);}
+
+// STAGE 1
+let s1={a:2,b:1};
+function s1u(k,v){s1[k]=v;document.getElementById('s1'+k+'v').textContent=v.toFixed(1);rs1();}
+function rs1(){
+  const uT=s1.a*72+s1.b*20,uC=s1.a*50+s1.b*38,mx=Math.max(uT,uC,10);
+  const bars=[{l:'Tank',v:uT,c:'#e05252',s:`α·${Math.round(s1.a*72)} + β·${Math.round(s1.b*20)}`},{l:'Compete',v:uC,c:'#4a9eda',s:`α·${Math.round(s1.a*50)} + β·${Math.round(s1.b*38)}`}];
+  const svg=document.getElementById('s1c');const lm=110,bh=30,gap=16,tm=8,W=580,pw=W-lm-20;
+  let out='';
+  bars.forEach((b,i)=>{const y=tm+i*(bh+gap),bw=Math.max(2,(b.v/mx)*pw);out+=`<text x="${lm-8}" y="${y+bh/2+5}" text-anchor="end" font-size="12" font-family="IBM Plex Mono" fill="#7a7870">${b.l}</text><rect x="${lm}" y="${y}" width="${bw}" height="${bh}" rx="4" fill="${b.c}" opacity=".85"/><text x="${lm+bw+6}" y="${y+bh/2+5}" font-size="12" font-family="IBM Plex Mono" fill="${b.c}" font-weight="500">${Math.round(b.v)}</text><text x="${lm+6}" y="${y+bh/2+5}" font-size="10" font-family="IBM Plex Mono" fill="rgba(232,230,223,0.4)">${b.s}</text>`;});
+  svg.setAttribute('viewBox',`0 0 ${W} ${tm+bars.length*(bh+gap)+10}`);svg.innerHTML=out;
+  const d=uT-uC,an=document.getElementById('s1an');
+  if(d>0){an.className='an bad';an.textContent=`Tanking utility ${Math.round(uT)} > competing utility ${Math.round(uC)} (+${Math.round(d)}). Losing is individually optimal.`;}
+  else{an.className='an good';an.textContent=`Competing utility ${Math.round(uC)} > tanking utility ${Math.round(uT)} (+${Math.round(-d)}). Revenue dominates at these weights.`;}
+}
+rs1();
+
+// STAGE 2 MATRIX
+let s2={a:2,b:1,era:'pre'};
+const S2D={pre:{TT:52,TC:75,CT:30,CC:50},post:{TT:52,TC:62,CT:38,CC:50}};
+const S2R={T:20,C:65};
+function s2u(k,v){s2[k]=v;document.getElementById('s2'+k+'v').textContent=v.toFixed(1);rs2();s2sr();}
+function s2era(e){s2.era=e;document.getElementById('s2pre').classList.toggle('on',e==='pre');document.getElementById('s2post').classList.toggle('on',e==='post');rs2();s2sr();}
+function rs2(){
+  const D=S2D[s2.era],a=s2.a,b=s2.b;
+  const p={TT:[a*D.TT+b*S2R.T,a*D.TT+b*S2R.T],TC:[a*D.TC+b*S2R.T,a*D.CT+b*S2R.C],CT:[a*D.CT+b*S2R.C,a*D.TC+b*S2R.T],CC:[a*D.CC+b*S2R.C,a*D.CC+b*S2R.C]};
+  const bAT=p.TT[0]>=p.CT[0],bAC=p.TC[0]>=p.CC[0],bBT=p.TT[1]>=p.TC[1],bBC=p.CT[1]>=p.CC[1];
+  const cs={TT:{a:p.TT[0],b:p.TT[1],brA:bAT,brB:bBT},TC:{a:p.TC[0],b:p.TC[1],brA:bAC,brB:!bBT},CT:{a:p.CT[0],b:p.CT[1],brA:!bAT,brB:bBC},CC:{a:p.CC[0],b:p.CC[1],brA:!bAC,brB:!bBC}};
+  ['TT','TC','CT','CC'].forEach(k=>{const c=cs[k],el=document.getElementById('s2'+k);const ne=c.brA&&c.brB;el.className='mc'+(ne?' ne':'');el.innerHTML=`<div class="pr"><span class="pt">you</span><span class="pv a${c.brA?' br':''}">${Math.round(c.a)}</span></div><div class="pr"><span class="pt">rival</span><span class="pv b${c.brB?' br':''}">${Math.round(c.b)}</span></div>${ne?'<div class="net">Nash eq.</div>':''}`;});
+  const neTT=cs.TT.brA&&cs.TT.brB,neCC=cs.CC.brA&&cs.CC.brB,an=document.getElementById('s2an');
+  if(neTT&&!neCC){an.className='an bad';an.textContent='Dominant strategy: Tank. (Tank, Tank) is the unique Nash equilibrium; every team rationally loses.';}
+  else if(neCC&&!neTT){an.className='an good';an.textContent='Dominant strategy: Compete. Revenue weight is high enough; tanking is individually irrational.';}
+  else if(neTT&&neCC){an.className='an mid';an.textContent="Coordination zone: two equilibria, (Tank, Tank) and (Compete, Compete). The 2019 reform's intended effect. Teams that expect rivals to tank will tank.";}
+  else{an.className='an mid';an.textContent='No pure strategy Nash equilibrium; teams mix strategies.';}
+  function neFor(era){const D2=S2D[era];const pp={TT:[a*D2.TT+b*S2R.T,a*D2.TT+b*S2R.T],CC:[a*D2.CC+b*S2R.C,a*D2.CC+b*S2R.C],TC:[a*D2.TC+b*S2R.T,a*D2.CT+b*S2R.C],CT:[a*D2.CT+b*S2R.C,a*D2.TC+b*S2R.T]};const bAT2=pp.TT[0]>=pp.CT[0],bAC2=pp.TC[0]>=pp.CC[0],bBT2=pp.TT[1]>=pp.TC[1],bBC2=pp.CT[1]>=pp.CC[1];const tankNE=bAT2&&bBT2,competeNE=!bAC2&&!bBC2;if(tankNE&&!competeNE)return{l:'(Tank, Tank)',c:'bad'};if(competeNE&&!tankNE)return{l:'(Compete, Compete)',c:'ok'};if(tankNE&&competeNE)return{l:'Coordination zone',c:'mid'};return{l:'Mixed strategy',c:'mid'};}
+  const pre=neFor('pre'),post=neFor('post');
+  document.getElementById('s2cs').innerHTML=`<div class="cc"><div class="cl">Pre-2019 NE</div><div class="cn ${pre.c}">${pre.l}</div></div><div class="cc"><div class="cl">Post-2019 NE</div><div class="cn ${post.c}">${post.l}</div></div>`;
+}
+rs2();
+
+// STAGE 2 SIMULATION
+const NR=30;let spd=450;let s2Sims={pre:null,post:null},s2At=null;
+function s2pay(s,pT,era,a,b){const D=S2D[era];return s==='T'?a*(pT*D.TT+(1-pT)*D.TC)+b*S2R.T:a*(pT*D.CT+(1-pT)*D.CC)+b*S2R.C;}
+function mkS2(era){return{era,st:Array.from({length:NR},()=>Math.random()<0.5?'T':'C'),szn:0,hist:[]};}
+function stepS2(sim){
+  const a=s2.a,b=s2.b,pT=sim.st.filter(x=>x==='T').length/NR;
+  const uT=s2pay('T',pT,sim.era,a,b),uC=s2pay('C',pT,sim.era,a,b);
+  const tmp=Math.max(4,20-sim.szn*1.2),p=1/(1+Math.exp(-(uT-uC)/tmp));
+  sim.st=sim.st.map(()=>Math.random()<p?'T':'C');
+  sim.szn++;sim.hist.push(pT);if(sim.hist.length>20)sim.hist.shift();
+}
+function rdS2(era){
+  const sim=s2Sims[era],sfx=era==='pre'?'pre':'post';
+  const dw=document.getElementById('d2'+sfx);dw.innerHTML='';
+  sim.st.forEach(s=>{const d=document.createElement('span');d.className='sd';d.style.background=s==='T'?'#e05252':'#4a9eda';dw.appendChild(d);});
+  const pT=sim.st.filter(x=>x==='T').length/NR;
+  document.getElementById('b2'+sfx).innerHTML=`<div style="flex:${pT};background:#e05252;opacity:.8"></div><div style="flex:${1-pT};background:#4a9eda;opacity:.8"></div>`;
+  document.getElementById('z2'+sfx).textContent=`Season ${sim.szn} · ${Math.round(pT*100)}% tanking`;
+  drawHist('h2'+sfx,sim.hist,'#e05252','#4a9eda',230,50);
+}
+function s2an2(){
+  if(!s2Sims.pre||!s2Sims.post)return;
+  const pPre=s2Sims.pre.st.filter(x=>x==='T').length/NR,pPost=s2Sims.post.st.filter(x=>x==='T').length/NR;
+  const an=document.getElementById('s2siman');
+  if(pPre>0.72&&pPost>0.72){an.className='an bad';an.textContent=`Both systems converging to near-universal tanking: ${Math.round(pPre*100)}% pre vs ${Math.round(pPost*100)}% post. The reform makes little difference at these weights. Try lowering α.`;}
+  else if(pPost<0.42&&pPre>0.6){an.className='an mid';an.textContent=`Post-2019 showing effect: ${Math.round(pPost*100)}% tanking vs ${Math.round(pPre*100)}% pre-2019. The coordination zone is working at these weights.`;}
+  else{an.className='an';an.textContent=`Pre-2019: ${Math.round(pPre*100)}% tanking · Post-2019: ${Math.round(pPost*100)}% tanking.`;}
+}
+function s2ss(){if(!s2Sims.pre)s2sr();stepS2(s2Sims.pre);stepS2(s2Sims.post);rdS2('pre');rdS2('post');s2an2();}
+function s2st(){
+  if(s2At){clearInterval(s2At);s2At=null;document.getElementById('s2rb').textContent='▶ Auto-run';document.getElementById('s2rb').className='sbtn pri';return;}
+  if(!s2Sims.pre)s2sr();
+  document.getElementById('s2rb').textContent='⏹ Stop';document.getElementById('s2rb').className='sbtn run';
+  s2At=setInterval(()=>{stepS2(s2Sims.pre);stepS2(s2Sims.post);rdS2('pre');rdS2('post');s2an2();if(s2Sims.pre.szn>=40){clearInterval(s2At);s2At=null;document.getElementById('s2rb').textContent='▶ Auto-run';document.getElementById('s2rb').className='sbtn pri';}},spd);
+}
+function s2sr(){if(s2At){clearInterval(s2At);s2At=null;document.getElementById('s2rb').textContent='▶ Auto-run';document.getElementById('s2rb').className='sbtn pri';}s2Sims={pre:mkS2('pre'),post:mkS2('post')};rdS2('pre');rdS2('post');document.getElementById('s2siman').textContent='';}
+s2sr();
+
+// STAGE 3 MATRIX
+let s3={a:2,b:1,g:0,sys:'nba',yr:'normal'};
+// Draft payoffs mirror Stage 2 exactly for NBA pre/post.
+// Hockey inverts the incentive: competing after elimination earns table wins → better picks.
+// Revenue matches Stage 2: Tank=20, Compete=65.
+const S3D={
+  nba_pre:{d:{Tank:{Tank:52,Compete:75},Compete:{Tank:30,Compete:50}},s:{normal:{Tank:20,Compete:2},super:{Tank:50,Compete:2}}},
+  nba:    {d:{Tank:{Tank:52,Compete:62},Compete:{Tank:38,Compete:50}},s:{normal:{Tank:20,Compete:2},super:{Tank:50,Compete:2}}},
+  hockey: {d:{Tank:{Tank:26,Compete:18},Compete:{Tank:62,Compete:50}},s:{normal:{Tank:2,Compete:16},super:{Tank:2,Compete:32}}}
+};
+const S3R={Tank:20,Compete:65};
+function s3u(k,v){s3[k]=v;document.getElementById('s3'+k+'v').textContent=v.toFixed(1);rs3();s3sr();}
+function s3sys(s){s3.sys=s;document.getElementById('s3nb').classList.toggle('on',s==='nba');document.getElementById('s3hb').classList.toggle('on',s==='hockey');rs3();}
+function s3yr(y){s3.yr=y;document.getElementById('s3nm').classList.toggle('on',y==='normal');document.getElementById('s3sm').classList.toggle('on',y==='super');rs3();}
+const S3ST2=['Tank','Compete'];
+function s3util(sys,yr,sa,sb){return s3.a*S3D[sys].d[sa][sb]+s3.b*S3R[sa]+s3.g*S3D[sys].s[yr][sa];}
+function rs3(){
+  const br={};S3ST2.forEach(sa=>S3ST2.forEach(sb=>{br[sa[0]+sb[0]]={a:false,b:false};}));
+  S3ST2.forEach(sb=>{const best=Math.max(...S3ST2.map(sa=>s3util(s3.sys,s3.yr,sa,sb)));S3ST2.forEach(sa=>{if(s3util(s3.sys,s3.yr,sa,sb)>=best-0.4)br[sa[0]+sb[0]].a=true;});});
+  S3ST2.forEach(sa=>{const best=Math.max(...S3ST2.map(sb=>s3util(s3.sys,s3.yr,sb,sa)));S3ST2.forEach(sb=>{if(s3util(s3.sys,s3.yr,sb,sa)>=best-0.4)br[sa[0]+sb[0]].b=true;});});
+  S3ST2.forEach(sa=>S3ST2.forEach(sb=>{const k=sa[0]+sb[0],el=document.getElementById('s3'+k);if(!el)return;const ne=br[k].a&&br[k].b;el.className='mc'+(ne?' ne':'');el.innerHTML=`<div class="pr"><span class="pt">you</span><span class="pv a${br[k].a?' br':''}">${Math.round(s3util(s3.sys,s3.yr,sa,sb))}</span></div><div class="pr"><span class="pt">rival</span><span class="pv b${br[k].b?' br':''}">${Math.round(s3util(s3.sys,s3.yr,sb,sa))}</span></div>${ne?'<div class="net">Nash eq.</div>':''}`;}));
+  const nks=S3ST2.flatMap(sa=>S3ST2.map(sb=>({k:`${sa[0]}${sb[0]}`,l:`(${sa}, ${sb})`}))).filter(x=>br[x.k].a&&br[x.k].b).map(x=>x.l);
+  const ntxt=nks.length?nks.join(' · '):'Mixed strategy';
+  const an=document.getElementById('s3an'),bad=nks.some(x=>x.includes('Tank, Tank')),good=nks.some(x=>x.includes('Compete'));
+  if(bad&&!good){an.className='an bad';an.textContent='Dominant strategy: Tank. (Tank, Tank) is the unique Nash equilibrium; every team rationally loses.';}
+  else if(!bad&&good){an.className='an good';an.textContent='Tank is dominated. Nash equilibrium: '+ntxt+'.';}
+  else{an.className='an mid';an.textContent='Nash equilibrium: '+ntxt+'.';}
+  function neFS(sys){const bri={};S3ST2.forEach(sa=>S3ST2.forEach(sb=>{bri[sa[0]+sb[0]]={a:false,b:false};}));S3ST2.forEach(sb=>{const best=Math.max(...S3ST2.map(sa=>s3.a*S3D[sys].d[sa][sb]+s3.b*S3R[sa]+s3.g*S3D[sys].s[s3.yr][sa]));S3ST2.forEach(sa=>{if(s3.a*S3D[sys].d[sa][sb]+s3.b*S3R[sa]+s3.g*S3D[sys].s[s3.yr][sa]>=best-0.4)bri[sa[0]+sb[0]].a=true;});});S3ST2.forEach(sa=>{const best=Math.max(...S3ST2.map(sb=>s3.a*S3D[sys].d[sb][sa]+s3.b*S3R[sb]+s3.g*S3D[sys].s[s3.yr][sb]));S3ST2.forEach(sb=>{if(s3.a*S3D[sys].d[sb][sa]+s3.b*S3R[sb]+s3.g*S3D[sys].s[s3.yr][sb]>=best-0.4)bri[sa[0]+sb[0]].b=true;});});const k2=S3ST2.flatMap(sa=>S3ST2.map(sb=>({k:`${sa[0]}${sb[0]}`,l:`(${sa}, ${sb})`}))).filter(x=>bri[x.k].a&&bri[x.k].b).map(x=>x.l);const lbl=k2.length?k2.join(' · '):'Mixed strategy';const cls=k2.some(x=>x.includes('Tank, Tank'))?'bad':k2.some(x=>x.includes('Compete'))?'ok':'mid';return{lbl,cls};}
+  const nNE=neFS('nba'),hNE=neFS('hockey');
+  document.getElementById('s3cs').innerHTML=`<div class="cc"><div class="cl">NBA current — NE</div><div class="cn ${nNE.cls}">${nNE.lbl}</div></div><div class="cc"><div class="cl">Hockey model — NE</div><div class="cn ${hNE.cls}">${hNE.lbl}</div></div>`;
+  const nt=s3.g>0.05?`γ·S — NBA: highest S=Tank(${S3D.nba.s[s3.yr].Tank}), amplifies tanking · Hockey: highest S=Compete(${S3D.hockey.s[s3.yr].Compete}), amplifies competing`:'';
+  document.getElementById('s3nt').textContent=nt;
+}
+rs3();
+
+// STAGE 3 SIMULATION
+const S3C={Tank:'#e05252',Bubble:'#f0a500',Compete:'#4a9eda'};
+let s3Sims={pre:null,post:null,hky:null},s3At=null;
+function mk3(sys){return{sys,st:Array.from({length:NR},()=>Math.random()<0.5?'Tank':'Compete'),szn:0,hist:[]};}
+function step3(sim){
+  const dist={Tank:0,Compete:0};sim.st.forEach(s=>dist[s]++);
+  const tot=sim.st.length,nd={Tank:dist.Tank/tot,Compete:dist.Compete/tot};
+  const utils={};
+  ['Tank','Compete'].forEach(sa=>{let u=0;['Tank','Compete'].forEach(sb=>{u+=nd[sb]*(s3.a*S3D[sim.sys].d[sa][sb]+s3.b*S3R[sa]+s3.g*S3D[sim.sys].s[s3.yr][sa]);});utils[sa]=u;});
+  const mx=Math.max(...Object.values(utils)),tmp=Math.max(4,22-sim.szn*1.3);
+  const eu={};let se=0;['Tank','Compete'].forEach(s=>{eu[s]=Math.exp((utils[s]-mx)/tmp);se+=eu[s];});
+  const pr={};['Tank','Compete'].forEach(s=>{pr[s]=eu[s]/se;});
+  sim.st=sim.st.map(()=>Math.random()<pr.Tank?'Tank':'Compete');
+  sim.szn++;const pT=dist.Tank/tot;sim.hist.push(pT);if(sim.hist.length>20)sim.hist.shift();
+}
+function rd3(key){
+  const sim=s3Sims[key],dw=document.getElementById('d3'+key);
+  dw.innerHTML='';sim.st.forEach(s=>{const d=document.createElement('span');d.className='sd';d.style.background=s==='Tank'?'#e05252':'#4a9eda';dw.appendChild(d);});
+  const c={Tank:0,Compete:0};sim.st.forEach(s=>c[s]++);
+  document.getElementById('b3'+key).innerHTML=`<div style="flex:${c.Tank};background:#e05252;opacity:.8"></div><div style="flex:${c.Compete};background:#4a9eda;opacity:.8"></div>`;
+  document.getElementById('z3'+key).textContent=`S${sim.szn} · ${c.Tank}T ${c.Compete}C`;
+  drawHist('h3'+key,sim.hist,'#e05252','#4a9eda',160,50);
+}
+function s3an2(){
+  if(!s3Sims.hky||!s3Sims.post)return;
+  const cH=s3Sims.hky.st.filter(x=>x==='Tank').length,cP2=s3Sims.post.st.filter(x=>x==='Tank').length,cP=s3Sims.pre.st.filter(x=>x==='Tank').length;
+  const an=document.getElementById('s3siman');
+  if(cH<=4&&cP2>14){an.className='an good';an.innerHTML=`Hockey model: only ${cH} teams tanking.<br>NBA post-2019: ${cP2} teams tanking.<br>The structural fix works: same incentives, opposite outcomes.`;}
+  else if(cH>18&&cP2>18){an.className='an bad';an.innerHTML=`Both systems converging to heavy tanking.<br>Try raising γ and switching to Superstar year.`;}
+  else{an.className='an';an.innerHTML=`Post-2019: ${cP2} tanking · Hockey: ${cH} tanking.`;}
+}
+function s3ss(){if(!s3Sims.pre)s3sr();step3(s3Sims.pre);step3(s3Sims.post);step3(s3Sims.hky);rd3('pre');rd3('post');rd3('hky');s3an2();}
+function s3st(){
+  if(s3At){clearInterval(s3At);s3At=null;document.getElementById('s3rb').textContent='▶ Auto-run';document.getElementById('s3rb').className='sbtn pri';return;}
+  if(!s3Sims.pre)s3sr();
+  document.getElementById('s3rb').textContent='⏹ Stop';document.getElementById('s3rb').className='sbtn run';
+  s3At=setInterval(()=>{step3(s3Sims.pre);step3(s3Sims.post);step3(s3Sims.hky);rd3('pre');rd3('post');rd3('hky');s3an2();if(s3Sims.pre.szn>=40){clearInterval(s3At);s3At=null;document.getElementById('s3rb').textContent='▶ Auto-run';document.getElementById('s3rb').className='sbtn pri';}},spd);
+}
+function s3sr(){if(s3At){clearInterval(s3At);s3At=null;document.getElementById('s3rb').textContent='▶ Auto-run';document.getElementById('s3rb').className='sbtn pri';}s3Sims={pre:mk3('nba_pre'),post:mk3('nba'),hky:mk3('hockey')};rd3('pre');rd3('post');rd3('hky');document.getElementById('s3siman').textContent='';}
+s3sr();
+
+// HISTORY LINE
+function drawHist(id,hist,c1,c2,W,H){
+  const svg=document.getElementById(id);if(!svg||!hist.length)return;
+  const pd=4,n=hist.length,xS=(W-pd*2)/Math.max(n-1,1);
+  let pts='',aT='',aC='';
+  hist.forEach((v,i)=>{const x=pd+i*xS,y=pd+(1-v)*(H-pd*2);pts+=(i===0?'M':'L')+x.toFixed(1)+' '+y.toFixed(1);});
+  const lastX=(pd+(n-1)*xS).toFixed(1);
+  aT=pts+`L${lastX} ${pd}L${pd} ${pd}Z`;
+  aC=pts+`L${lastX} ${H-pd}L${pd} ${H-pd}Z`;
+  svg.innerHTML=`<path d="${aC}" fill="${c2}" opacity=".15"/><path d="${aT}" fill="${c1}" opacity=".15"/><path d="${pts}" fill="none" stroke="${c1}" stroke-width="1.5" opacity=".7"/><text x="${W-pd}" y="${H-2}" text-anchor="end" font-size="9" font-family="IBM Plex Mono" fill="#7a7870">tank%</text>`;
+}
+
+// STAGE 4
+const TOT=82,MONTHS=['Oct','Nov','Dec','Jan','Feb','Mar','Apr'],MG=[0,10,22,35,47,60,72,82];
+const TIERS=[{id:'tank',lbl:'Early Lottery',col:'#e05252',tc:'#f08080',elim:52,wlbl:'15–25 wins'},{id:'mid',lbl:'Mid Lottery',col:'#f0a500',tc:'#ffc845',elim:67,wlbl:'26–34 wins'},{id:'bubble',lbl:'Late Lottery',col:'#3dba8a',tc:'#7ddcba',elim:77,wlbl:'35–40 wins'}];
+function eg(g){return Math.max(0,TOT-g);}
+function mLbl(g){for(let i=1;i<MG.length;i++){if(g<=MG[i]){const f=(g-MG[i-1])/(MG[i]-MG[i-1]);return MONTHS[i-1]+(f>0.55?' late':f<0.25?' early':' mid');}}return 'Apr';}
+function drawTlAx(){document.getElementById('tlax').innerHTML=MONTHS.map(m=>`<span class="tlai">${m}</span>`).join('');}
+function drawTlBars(){const bs=document.getElementById('tlbars');bs.innerHTML='';TIERS.forEach(t=>{const rp=(t.elim/TOT)*100,ep=((TOT-t.elim)/TOT)*100,g=eg(t.elim);bs.innerHTML+=`<div class="tlr"><span class="tll" style="color:${t.tc}">${t.lbl}</span><div class="tlbw"><div class="tlbr" style="width:${rp}%"></div><div class="tlbe" style="left:${rp}%;width:${ep}%;background:${t.col}"></div><span class="tlbt" style="color:${t.tc}">${g}g</span></div></div>`;});}
+function drawTlCtrls(){const c=document.getElementById('tlctrls');c.innerHTML='';TIERS.forEach(t=>{c.innerHTML+=`<div class="slr" style="margin-bottom:6px"><span class="sll" style="color:${t.tc};min-width:130px">${t.lbl}</span><input type="range" min="20" max="78" step="1" value="${t.elim}" oninput="tlMv('${t.id}',+this.value,this)"><span class="slv" id="tlsv-${t.id}" style="color:${t.tc}">${mLbl(t.elim)}</span></div>`;});}
+function drawOdds(){const ae=TIERS.map(t=>eg(t.elim)),tot=ae.reduce((a,b)=>a+b,0);const sec=document.getElementById('oddsec');sec.innerHTML='';TIERS.forEach((t,i)=>{const g=ae[i],pct=tot>0?(g/tot)*100:0;sec.innerHTML+=`<div class="or"><span class="ol" style="color:${t.tc}">${t.lbl}</span><div class="obw"><div class="obf" style="width:${pct.toFixed(1)}%;background:${t.col};opacity:.8"></div><span class="op" style="color:${t.tc}">${pct.toFixed(1)}%</span></div></div>`;});}
+function drawTcards(){const ae=TIERS.map(t=>eg(t.elim)),srt=[...ae].sort((a,b)=>b-a);const c=document.getElementById('tiercards');c.innerHTML='';TIERS.forEach((t,i)=>{const g=ae[i],pk=srt.indexOf(g)+1;c.innerHTML+=`<div class="tc" style="border-color:${t.col}"><div class="tcl" style="color:${t.tc}">${t.lbl}</div><div class="tcb" style="color:${t.tc}">${g}</div><div class="tcs2">table games</div><div class="tcd"><div class="tcl">exp. pick</div><div class="tcp" style="color:${t.tc}">#${pk}</div><div class="tcs2">${t.wlbl}</div></div></div>`;});const gap=ae[0]-ae[2];document.getElementById('tlnote').textContent=`Early lottery teams earn ${ae[0]} table games vs ${ae[2]} for late lottery teams (+${gap}) · ${gap>15?'Strong bias toward worse teams':gap>5?'Moderate bias':'Flat odds — tiers too close'}`;}
+window.tlMv=function(id,val,inp){const t=TIERS.find(x=>x.id===id);if(!t)return;if(id==='tank'&&val>=TIERS[1].elim)val=TIERS[1].elim-2;if(id==='mid'&&val>=TIERS[2].elim)val=TIERS[2].elim-2;if(id==='mid'&&val<=TIERS[0].elim)val=TIERS[0].elim+2;if(id==='bubble'&&val<=TIERS[1].elim)val=TIERS[1].elim+2;inp.value=val;t.elim=val;document.getElementById('tlsv-'+id).textContent=mLbl(val);drawTlBars();drawOdds();drawTcards();};
+drawTlAx();drawTlBars();drawTlCtrls();drawOdds();drawTcards();
+
+// STAGE 5 — RETROACTIVE HOCKEY MODEL
+// Elimination game = approximate game number when mathematically eliminated from playoffs
+// Table games = 82 - elimination game (games available on elimination table)
+// Play-in teams treated as eliminated on play-in loss date (~game 82 + 1-2 play-in games, capped at 82)
+// Actual pick = real lottery result; Hockey pick = rank by table games descending
+const S5DATA = {
+  2025: {
+    note: "2025 Draft — Cooper Flagg #1 to Dallas via lottery. The Mavericks had 39 wins and 0 table wins under the hockey model, yet won the #1 pick. Washington, eliminated earliest with the most table wins, picked #3 in reality.",
+    useTableWins: true,
+    teams: [
+      {team:"Utah Jazz",              wins:17, elimGame:66, tableWins:2, playIn:false, actualPick:10, note:""},
+      {team:"Washington Wizards",     wins:18, elimGame:71, tableWins:3, playIn:false, actualPick:3,  note:""},
+      {team:"Charlotte Hornets",      wins:19, elimGame:72, tableWins:1, playIn:false, actualPick:5,  note:""},
+      {team:"New Orleans Pelicans",   wins:21, elimGame:67, tableWins:3, playIn:false, actualPick:4,  note:""},
+      {team:"Philadelphia 76ers",     wins:24, elimGame:75, tableWins:1, playIn:false, actualPick:16, note:""},
+      {team:"Brooklyn Nets",          wins:26, elimGame:74, tableWins:3, playIn:false, actualPick:8,  note:""},
+      {team:"Toronto Raptors",        wins:30, elimGame:76, tableWins:2, playIn:false, actualPick:9,  note:""},
+      {team:"San Antonio Spurs",      wins:34, elimGame:78, tableWins:2, playIn:false, actualPick:2,  note:""},
+      {team:"Portland Trail Blazers", wins:36, elimGame:78, tableWins:1, playIn:false, actualPick:7,  note:""},
+      {team:"Phoenix Suns",           wins:36, elimGame:80, tableWins:1, playIn:false, actualPick:11, note:""},
+      {team:"Chicago Bulls",          wins:39, elimGame:82, tableWins:0, playIn:false, actualPick:12, note:""},
+      {team:"Dallas Mavericks",       wins:39, elimGame:82, tableWins:0, playIn:false, actualPick:1,  note:""},
+      {team:"Atlanta Hawks",          wins:40, elimGame:82, tableWins:0, playIn:false, actualPick:13, note:""},
+      {team:"Sacramento Kings",       wins:40, elimGame:82, tableWins:0, playIn:false, actualPick:14, note:""},
+    ]
+  },
+  2024: {
+    note: "2024 Draft — Zaccharie Risacher #1 to Atlanta via lottery. San Antonio had the most table wins (9) but drew #4.",
+    useTableWins: true,
+    teams: [
+      {team:"San Antonio Spurs",        wins:22, elimGame:null, tableWins:9, playIn:false, actualPick:4,    note:""},
+      {team:"Washington Wizards",       wins:15, elimGame:null, tableWins:5, playIn:false, actualPick:2,    note:""},
+      {team:"Charlotte Hornets",        wins:21, elimGame:null, tableWins:4, playIn:false, actualPick:6,    note:""},
+      {team:"Memphis Grizzlies",        wins:27, elimGame:null, tableWins:4, playIn:false, actualPick:9,    note:""},      {team:"Houston Rockets",          wins:41, elimGame:null, tableWins:3, playIn:false, actualPick:12,   note:""},
+      {team:"Detroit Pistons",          wins:14, elimGame:null, tableWins:2, playIn:false, actualPick:5,    note:""},
+      {team:"Portland Trail Blazers",   wins:21, elimGame:null, tableWins:2, playIn:false, actualPick:7,    note:""},
+      {team:"Toronto Raptors",          wins:25, elimGame:null, tableWins:2, playIn:false, actualPick:8,    note:""},
+      {team:"Utah Jazz",                wins:31, elimGame:null, tableWins:2, playIn:false, actualPick:9,    note:""},
+      {team:"Brooklyn Nets",            wins:32, elimGame:null, tableWins:2, playIn:false, actualPick:10,   note:""},
+      {team:"Atlanta Hawks",            wins:36, elimGame:null, tableWins:0, playIn:false, actualPick:1,    note:""},
+      {team:"Chicago Bulls",            wins:39, elimGame:null, tableWins:0, playIn:false, actualPick:11,   note:""},
+      {team:"Golden State Warriors",    wins:46, elimGame:null, tableWins:0, playIn:false, actualPick:14,   note:""},
+      {team:"Sacramento Kings",         wins:46, elimGame:null, tableWins:0, playIn:false, actualPick:13,   note:""},
+    ]
+  },
+  2023: {
+    note: "2023 Draft — Victor Wembanyama #1 to San Antonio via lottery. Houston had the most table wins (7) and would have picked first under the hockey model.",
+    useTableWins: true,
+    teams: [
+      {team:"Houston Rockets",          wins:22, elimGame:null, tableWins:7, playIn:false, actualPick:4,  note:""},
+      {team:"San Antonio Spurs",        wins:22, elimGame:null, tableWins:6, playIn:false, actualPick:1,  note:""},
+      {team:"Charlotte Hornets",        wins:27, elimGame:null, tableWins:5, playIn:false, actualPick:2,  note:""},
+      {team:"Detroit Pistons",          wins:17, elimGame:null, tableWins:2, playIn:false, actualPick:5,  note:""},
+      {team:"Portland Trail Blazers",   wins:33, elimGame:null, tableWins:1, playIn:false, actualPick:3,  note:""},
+      {team:"Washington Wizards",       wins:35, elimGame:null, tableWins:1, playIn:false, actualPick:8,  note:""},
+      {team:"Indiana Pacers",           wins:35, elimGame:null, tableWins:1, playIn:false, actualPick:7,  note:""},
+      {team:"Utah Jazz",                wins:37, elimGame:null, tableWins:1, playIn:false, actualPick:9,  note:""},
+      {team:"Orlando Magic",            wins:34, elimGame:null, tableWins:0, playIn:false, actualPick:6,  note:""},
+      {team:"Dallas Mavericks",         wins:38, elimGame:null, tableWins:0, playIn:false, actualPick:10, note:""},
+      {team:"Oklahoma City Thunder",    wins:40, elimGame:null, tableWins:0, playIn:false, actualPick:12, note:""},
+      {team:"Chicago Bulls",            wins:40, elimGame:null, tableWins:0, playIn:false, actualPick:11, note:""},
+      {team:"Toronto Raptors",          wins:41, elimGame:null, tableWins:0, playIn:false, actualPick:13, note:""},
+      {team:"New Orleans Pelicans",     wins:42, elimGame:null, tableWins:0, playIn:false, actualPick:14, note:""},
+    ]
+  },
+};
+
+let s5year=2025;
+window.s5yr=function(y){
+  s5year=y;
+  [{yr:2025,id:'25'},{yr:2024,id:'24'},{yr:2023,id:'23'}].forEach(({yr,id})=>{
+    const el=document.getElementById('s5y'+id);
+    if(el)el.classList.toggle('on',yr===y);
+  });
+  renderS5();
+};
+
+function renderS5(){
+  const data=S5DATA[s5year];
+  const teams=[...data.teams];
+  // Calculate table games: use actual tableWins if provided, else derive from elimGame
+  teams.forEach(t=>{
+    t.tableGames = data.useTableWins ? (t.tableWins||0) : Math.max(0,82-t.elimGame);
+  });
+  // Sort by tableGames desc; tiebreak by fewest wins (PWHL rule: worst record wins tie)
+  const sorted=[...teams].sort((a,b)=>{
+    if(b.tableGames!==a.tableGames)return b.tableGames-a.tableGames;
+    return a.wins-b.wins;
+  });
+  teams.forEach(t=>{t.hockeyPick=sorted.indexOf(t)+1;});
+  // Sort display by hockey pick
+  const display=[...teams].sort((a,b)=>a.hockeyPick-b.hockeyPick);
+
+  // Detect ties for annotation
+  const tieGroups={};
+  sorted.forEach((t,i)=>{
+    const k=t.tableGames+'-'+t.wins;
+    if(!tieGroups[k])tieGroups[k]=[];
+    tieGroups[k].push(i+1);
+  });
+  const hasTies=Object.values(tieGroups).some(g=>g.length>1);
+
+  const showElim = !data.useTableWins;
+  const tgLabel = data.useTableWins ? 'Table wins' : 'Table games';
+  const tgNote = data.useTableWins
+    ? `<div style="font-family:var(--font-m);font-size:10px;color:var(--muted);margin-bottom:.5rem">Ranked by wins after elimination · tiebreaker: fewest regular-season wins</div>`
+    : '';
+  let html=tgNote+`<div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;min-width:480px;font-size:12px;font-family:var(--font-m)">
+    <tr>
+      <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border2);color:var(--muted);font-weight:400">Team</th>
+      <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border2);color:var(--muted);font-weight:400">Wins</th>
+      ${showElim?`<th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border2);color:var(--muted);font-weight:400">Elim. game</th>`:''}
+      <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border2);color:var(--muted);font-weight:400">${tgLabel}</th>
+      <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border2);color:var(--muted);font-weight:400">Hockey pick</th>
+      <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border2);color:var(--muted);font-weight:400">Actual pick</th>
+      <th style="text-align:center;padding:6px 8px;border-bottom:1px solid var(--border2);color:var(--muted);font-weight:400">Δ</th>
+    </tr>`;
+
+  display.forEach((t,i)=>{
+    const actualPick = t.actualPick;
+    const diff = actualPick != null ? actualPick - t.hockeyPick : null;
+    const isTied = Object.values(tieGroups).some(g=>g.length>1&&g.includes(t.hockeyPick));
+    const tieFlag = isTied ? ' <span style="color:var(--amber);font-size:10px">~</span>' : '';
+    const diffTxt = diff==null?'—':diff===0?'—':diff>0?`+${diff}`:`${diff}`;
+    const diffCol = diff==null?'var(--muted)':diff>2?'var(--green)':diff<-2?'var(--red)':'var(--muted)';
+    const actualTxt = actualPick != null ? `#${actualPick}` : `<span style="color:var(--muted)">—</span>`;
+    const rowBg=i%2===0?'transparent':'rgba(255,255,255,0.02)';
+    const playInTag=t.playIn?` <span style="font-size:10px;color:var(--amber);border:1px solid rgba(240,165,0,0.4);border-radius:3px;padding:1px 4px">play-in</span>`:'';
+    const noteTag=(!t.playIn&&t.note&&!data.useTableWins)?` <span style="font-size:10px;color:var(--muted)">${t.note}</span>`:'';
+    const elimCell = showElim ? `<td style="padding:7px 8px;text-align:center;color:var(--muted)">G${t.elimGame}${t.playIn?' (play-in)':''}</td>` : '';
+    const colspan = showElim ? 7 : 6;
+    html+=`<tr style="background:${rowBg}">
+      <td style="padding:7px 8px;color:var(--text)">${t.team}${playInTag}${noteTag}</td>
+      <td style="padding:7px 8px;text-align:center;color:var(--muted)">${t.wins}</td>
+      ${elimCell}
+      <td style="padding:7px 8px;text-align:center;color:var(--teal);font-weight:500">${t.tableGames}</td>
+      <td style="padding:7px 8px;text-align:center;color:var(--amber);font-weight:500">#${t.hockeyPick}${tieFlag}</td>
+      <td style="padding:7px 8px;text-align:center;color:var(--muted)">${actualTxt}</td>
+      <td style="padding:7px 8px;text-align:center;color:${diffCol};font-weight:500">${diffTxt}</td>
+    </tr>`;
+    if(t.note&&data.useTableWins){html+=`<tr style="background:${rowBg}"><td colspan="${colspan}" style="padding:1px 8px 6px;color:var(--muted);font-size:10px">${t.note}</td></tr>`;}
+  });
+  html+='</table></div>';
+
+  // Summary bar: show who gained/lost most
+  const bigGainers=display.filter(t=>t.actualPick-t.hockeyPick>2).map(t=>`${t.team} (actual #${t.actualPick} → hockey #${t.hockeyPick})`);
+  const bigLosers=display.filter(t=>t.hockeyPick-t.actualPick>2).map(t=>`${t.team} (actual #${t.actualPick} → hockey #${t.hockeyPick})`);
+
+  document.getElementById('s5table').innerHTML=html;
+  document.getElementById('s5note').textContent=data.note;
+}
+renderS5();
+
+// MATH MODAL
+let mCur=0;
+function openMath(tab){
+  if(tab!==undefined){
+    mCur=tab;
+    document.querySelectorAll('.mtb').forEach((b,i)=>b.classList.toggle('on',i===tab));
+    document.querySelectorAll('.mtpn').forEach((p,i)=>p.classList.toggle('on',i===tab));
+  }
+  document.getElementById('mmod').classList.add('open');
+}
+function closeMath(){document.getElementById('mmod').classList.remove('open');}
+function mTab(n){
+  mCur=n;
+  document.querySelectorAll('.mtb').forEach((b,i)=>b.classList.toggle('on',i===n));
+  document.querySelectorAll('.mtpn').forEach((p,i)=>p.classList.toggle('on',i===n));
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMath();});
+</script>
+</body>
+</html>
