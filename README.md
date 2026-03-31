@@ -29,7 +29,7 @@ The notebook covers six sections: single-team utility model, two-player prisoner
 
 - **Draft lottery odds:** NBA official records (pre-2019 and post-2019 formats)
 - **Season records and schedule data:** StatMuse schedule pages (2023–2025), fetched via web extraction; mathematical elimination dates determined manually
-- **Draft pick surplus value calibration:** Informed by Galletti (Wages of Wins, 2010), Nick Restifo (Nylon Calculus), and Nate Silver (FiveThirtyEight, 2014) — values are author approximations consistent with that literature
+- **Draft pick surplus value calibration:** Heuristic calibrations consistent with published NBA draft surplus value literature — values are author approximations
 - **Revenue calibration:** Forbes annual NBA team valuations (2023–2024); NBA CBA revenue sharing structure (2023 CBA, ~50% BRI pooled); gate revenue estimated from average attendance × median ticket price — all figures are author estimates consistent with public reporting
 
 ## Stack
